@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect
 from .forms import UserProfileForm, UserInfoForm, UserForm
 from mysite.settings import USER_IMAGE_DATA_DIR
 import os
-
+from django.core.urlresolvers import reverse
 # Create your views here.
 
 
@@ -45,7 +45,7 @@ def register(request):
             new_profile.save()
             print(new_profile.user_id)
             UserInfo.objects.create(user=new_user) # 新建用户的同时，在UserInfo表里面也新建数据
-            return HttpResponse("Successfully")
+            return HttpResponseRedirect(reverse('account:user_login'))
         else:
             return HttpResponse("sorry, you can not registe")
     else:

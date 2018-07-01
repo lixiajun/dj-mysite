@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 """
 Django settings for mysite project.
 
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],  #模板文件的位置,更改后，admin的模板也要复制到目录下
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],  # 模板文件的位置,更改后，admin的模板也要复制到目录下
         'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
@@ -79,8 +79,8 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blog',  #数据库名
         'USER':'root',           #用户名
@@ -127,12 +127,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'  #静态文件的路由
+STATIC_URL = '/static/'  # 静态文件的路由
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),  #静态文件的目录
+    os.path.join(BASE_DIR, "static"),  # 静态文件的目录
 )
 
-LOGIN_REDIRECT_URL = '/blog/'  #作用是方便认证成功后方便跳转
+LOGIN_REDIRECT_URL = '/home/'  # 作用是方便认证成功后方便跳转
 
 
 EMAIL_HOST = 'smtp.qq.com'
@@ -141,7 +141,7 @@ EMAIL_HOST_PASSWORD = 'a@196951'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "727996362@qq.com"
-EMAIL_HOST_PASSWORD = 'bvnmjoatuigebega' #qq邮箱需要授权码，不然会有SMTPAuthenticationError报错，535
+EMAIL_HOST_PASSWORD = 'bvnmjoatuigebega' # qq邮箱需要授权码，不然会有SMTPAuthenticationError报错，535
 
 #用户图片保存
 USER_IMAGE_DATA_DIR = '/home/django_blog/mysite/user_image_data'
