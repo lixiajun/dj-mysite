@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^list-articles-titles/$', list_views.article_titles, name="article_titles"),
     url(r'^list-artilce-detail/(?P<id>\d+)/(?P<slug>[-\w]+)/$', list_views.article_detail, name="list_article_detail"),
 
+
 ]

@@ -5,7 +5,7 @@
 <div>
     <header>
         <h1>{{ article.title }}</h1>
-        <p>{{ user.username}}</p>
+        <p>{{ article.author.username }}</p>   {# 文章实际的作者 #}
     </header>
     <link rel="stylesheet" href="{% static 'editor/css/editormd.preview.css'%}" />
     <div id="editormd-view">
