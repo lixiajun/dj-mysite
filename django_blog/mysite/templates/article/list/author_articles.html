@@ -1,10 +1,12 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block title %}articles{% endblock %}
 {% block content %}
 <div class="row text-center vertical-middle-sm">
     <h1>阅读，丰富头脑，善化行为</h1>
 </div>
 <div class="container">
+<div class="col-md-8">
     {% for article in articles%}
     <div class="list-group">
         <a href="{{article.get_url_path}}" class="list-group-item active">
@@ -17,5 +19,24 @@
     </div>
     {% endfor %}
     {% include "paginator.html" %}
+</div>
+<div class="col-md-4">
+<div>
+    {% if userinfo.photo %}
+    <img src="{{ userimage | striptags }}" class="img-circle" id="my_photo" name="user_face">
+    {% else %}
+    <img src="{% static 'images/person_default.jpg' %}" class="img-circle" id="my_photo">
+    {% endif %}
+</div>
+<div>
+    <p>{{ user.username }}</p>
+    {% if userinfo %}
+        <p>{{ userinfo.company }}</p>
+        <p>{{ userinfo.aboutme }}</p>
+    {% else %}
+        <p>作者没有内容</p>
+    {% endif %}
+</div>
+</div>
 </div>
 {% endblock %}

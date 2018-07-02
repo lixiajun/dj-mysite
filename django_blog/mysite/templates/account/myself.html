@@ -45,9 +45,9 @@
         <div class="col-md-6">
             {% load staticfiles %}
             <div style="margin-right: 100px">
-                {% if user_image %}
-                 <img src="{{ user_image | striptags }}" class="img-circle"  id="my_photo" name="user_face">
-                  <!-- striptags 的意思是除去html标签!-->
+                {% if userimage %}
+                 <img src="{{ userimage | striptags }}" class="img-circle"  id="my_photo" name="user_face">
+                  <!-- striptags 的意思是除去html标签!-->  <!--src可以把base64处理后的图片内容还原成图片!-->
                 {% else %}
                 <img name="user_face" src="{% static 'images/dog.jpg' %}" class="img-circle" id="my_photo">
                 {% endif %}

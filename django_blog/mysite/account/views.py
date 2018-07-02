@@ -8,7 +8,7 @@ from .models import UserProfile, UserInfo
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from .forms import UserProfileForm, UserInfoForm, UserForm
-from mysite.settings import USER_IMAGE_DATA_DIR
+from mysite.settings import UPLOAD_IMAGE_DIR
 import os
 from django.core.urlresolvers import reverse
 # Create your views here.
@@ -59,10 +59,10 @@ def myself(request):
     user = User.objects.get(username=request.user.username)
     userprofile = UserProfile.objects.get(user=user)
     userinfo = UserInfo.objects.get(user=user)
-    with open(os.path.join(USER_IMAGE_DATA_DIR,str(request.user.id) + '.jpg'),'r') as fi:
-        content = fi.read()
-    user_img = content
-    return render(request,"account/myself.html",{'user':user, 'userprofile':userprofile, 'userinfo':userinfo,"user_image":user_img})
+    user_photo_url = userinfo.getImagesUrl
+    with open(userinfo.getImagePath) as fi:
+        image = fi.read()
+    return render(request,"account/myself.html",{'user':user, 'userprofile':userprofile, 'userinfo':userinfo, "userimage":image})
 
 
 @login_required(login_url='/account/login')
@@ -106,17 +106,18 @@ def myself_edit(request):
                        "userprofile_form": userprofile_form,
                        "userinfo_form": userinfo_form})
 
+
 @login_required(login_url='/account/login')
 def my_image(request):
     if request.method == "POST":
-        img = request.POST['img']
-        print(USER_IMAGE_DATA_DIR)
-        user_iamge_path = os.path.join(USER_IMAGE_DATA_DIR,str(request.user.id) + '.jpg')
-        with open(user_iamge_path,'w+') as fi:
+        img = request.POST['img']   # img 是对图片进行base64编码的内容
+        img_name = str(request.user.id) + '.jpg'
+        user_iamge_path = os.path.join(UPLOAD_IMAGE_DIR, str(request.user.id) + '.jpg')
+        with open(user_iamge_path, 'w+') as fi:
             fi.write(img)
-        #userinfo = UserInfo.objects.get(user=request.user.id)
-        #userinfo.photo = img
-        #userinfo.save()
+        userinfo = UserInfo.objects.get(user=request.user.id)
+        userinfo.photo = img_name  # 存储图片的名字
+        userinfo.save()
         return HttpResponse("1")
     else:
         return render(request, 'account/imagecrop.html')

@@ -12,6 +12,6 @@ urlpatterns = [
     url(r'^redit-article/(?P<article_id>\d+)/$', views.redit_article, name="redit_article"),
     url(r'^list-articles-titles/$', list_views.article_titles, name="article_titles"),
     url(r'^list-artilce-detail/(?P<id>\d+)/(?P<slug>[-\w]+)/$', list_views.article_detail, name="list_article_detail"),
-
-
+    url(r'^list-article-titles/(?P<username>[-\w]+)/$', list_views.article_titles, name="author_articles"),
+    url(r'^like-article/$', list_views.like_article, name="like_article"),
 ]

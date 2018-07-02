@@ -27,6 +27,7 @@ class ArticlePost(models.Model):
     body = models.TextField()
     created = models.DateTimeField(default=timezone.now())
     updated = models.DateTimeField(auto_now=True)
+    user_like = models.ManyToManyField(User, related_name="articles_like", blank=True)
 
     class Meta:
         ordering = ("-updated",)  # 按照文章的标题来排序，作用在查询出相关的文章之后的排序

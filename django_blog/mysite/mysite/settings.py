@@ -141,7 +141,11 @@ EMAIL_HOST_PASSWORD = 'a@196951'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "727996362@qq.com"
-EMAIL_HOST_PASSWORD = 'bvnmjoatuigebega' # qq邮箱需要授权码，不然会有SMTPAuthenticationError报错，535
+EMAIL_HOST_PASSWORD = 'bvnmjoatuigebega'  # qq邮箱需要授权码，不然会有SMTPAuthenticationError报错，535
 
-#用户图片保存
-USER_IMAGE_DATA_DIR = '/home/django_blog/mysite/user_image_data'
+# 用户上传数据
+UPLOAD_DIR = os.path.join(BASE_DIR, 'static', 'upload')   # 上传路径目录
+UPLOAD_IMAGE_DIR = os.path.join(UPLOAD_DIR, 'images')  # 上传图片目录
+IMAGE_URL = '/static/upload/images'  # 图片的url地址
+
+DEFAULT_PERSON_IMAGE_PATH = os.path.join(BASE_DIR, 'static', 'images', 'person_default.jpg')
