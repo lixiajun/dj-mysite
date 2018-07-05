@@ -149,3 +149,10 @@ UPLOAD_IMAGE_DIR = os.path.join(UPLOAD_DIR, 'images')  # 上传图片目录
 IMAGE_URL = '/static/upload/images'  # 图片的url地址
 
 DEFAULT_PERSON_IMAGE_PATH = os.path.join(BASE_DIR, 'static', 'images', 'person_default.jpg')
+
+
+# redis 信息配置
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_DB = 0
+
