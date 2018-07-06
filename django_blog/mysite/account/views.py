@@ -31,6 +31,7 @@ def user_login(request):
         login_form = LoginForm()
         return render(request, "account/login.html", {"form": login_form})
 
+
 def register(request):
     if request.method == "POST":
         user_form = RegistrationForm(request.POST)
@@ -54,7 +55,7 @@ def register(request):
         return render(request, "account/register.html", {"form": user_form, "profile": userprofile_form})
 
 
-@login_required(login_url='/account/login/')  #装饰器，查看是否已经登录，将没有登录的转到登录页面
+@login_required(login_url='/account/login/')  # 装饰器，查看是否已经登录，将没有登录的转到登录页面
 def myself(request):
     user = User.objects.get(username=request.user.username)
     userprofile = UserProfile.objects.get(user=user)

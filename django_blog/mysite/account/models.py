@@ -10,7 +10,7 @@ import os
 # Create your models here.
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, unique=True)  #一对一的关系
+    user = models.OneToOneField(User, unique=True)  # 一对一的关系
     birth = models.DateField(blank=True, null=True)
     phone = models.CharField(max_length=20, null=True)
 

@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.utils import timezone   # settings中的TIME_ZONE要改为'Asia/Shanghai'
 from django.core.urlresolvers import reverse
 from slugify import slugify
-
 # Create your models here.
 
 
@@ -19,7 +18,7 @@ class ArticleColumn(models.Model):  # 文章的栏目，跟用户绑定
         return self.column
 
 
-class ArticlePost(models.Model):
+class ArticlePost(models.Model):  # 文章的内容
     author = models.ForeignKey(User, related_name="article")
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=500)  # 让url更易读
@@ -45,4 +44,17 @@ class ArticlePost(models.Model):
 
     def get_url_path(self):
         return reverse("article:list_article_detail", args=[self.id, self.slug])  # 给不需要登录的用户使用的
+
+
+class Comment(models.Model):
+    article = models.ForeignKey(ArticlePost, related_name="comments")
+    commentator = models.ForeignKey(User, related_name="commentator")
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-created',)
+
+    def __str__(self):
+        return "Comment by {0} on {1}".format(self.commentator.username, self.article)
 

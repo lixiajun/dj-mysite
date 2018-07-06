@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .forms import ArticleColumnForm, ArticlePostForm, ArticlePost
+from .forms import ArticleColumnForm, ArticlePostForm, ArticlePost, CommentForm
 import redis
 from django.conf import settings
 r = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
@@ -50,17 +50,26 @@ def article_titles(request, username=None):
 def article_detail(request, id, slug):
     article = get_object_or_404(ArticlePost, id=id, slug=slug)
     total_views = r.incr("article:{}:views".format(article.id))  # 自增长
-    print(article.id)
     r.zincrby('article_ranking', article.id, 1)  # 访问一次，那么 article_ranking 就记录该文章id的值增加1
 
     article_ranking = r.zrange('article_ranking', 0, -1, desc=True)   # 取所有文章的前10个
-    print(article_ranking)
     article_ranking_ids = [int(id) for id in article_ranking]  # 前10的id的列表
     most_viewed = list(ArticlePost.objects.filter(id__in=article_ranking_ids))  # 前10的文章对象
     most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))  # 按照访问次数对文章进行排名
 
+    if request.method == "POST":
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.article = article  # 这是因为表单里面没有保存文章的信息，所以这里额外保存
+            new_comment.commentator = request.user
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+
     return render(request, "article/list/article_detail.html", {"article": article, "total_views": total_views,
-                                                                "most_viewed": most_viewed})
+                                                                "most_viewed": most_viewed, "comment_form": comment_form})
+
 
 
 @csrf_exempt
