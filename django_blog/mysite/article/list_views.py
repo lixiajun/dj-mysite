@@ -59,11 +59,24 @@ def article_detail(request, id, slug):
 
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
+        user = request.user
         if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.article = article  # 这是因为表单里面没有保存文章的信息，所以这里额外保存
-            new_comment.commentator = request.user
-            new_comment.save()
+            if 'userid_{}_articleid_{}'.format(user.id, article.id) in request.session:  # session中有这个键
+                if not request.session['userid_{}_articleid_{}'.format(user.id, article.id)]:  # 允许评论
+                    new_comment = comment_form.save(commit=False)
+                    new_comment.article = article  # 这是因为表单里面没有保存文章的信息，所以这里额外保存
+                    new_comment.commentator = request.user
+                    new_comment.save()
+                    request.session['userid_{}_articleid_{}'.format(user.id, article.id)] = True
+                else:
+                    pass
+            else:   # 第一次评价，session中还没有键
+                new_comment = comment_form.save(commit=False)
+                new_comment.article = article  # 这是因为表单里面没有保存文章的信息，所以这里额外保存
+                new_comment.commentator = request.user
+                new_comment.save()
+                request.session['userid_{}_articleid_{}'.format(user.id, article.id)] = True
+                pass
     else:
         comment_form = CommentForm()
 
