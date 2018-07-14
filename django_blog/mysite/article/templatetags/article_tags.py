@@ -37,4 +37,6 @@ def most_commented_articles(n=3):
 @register.filter(name='markdown')   # 自定义一个filter选择器，这里的name是对下面的函数名重命名。这个选择的作用是将markdown语法解析为html代码
 def markdown_filter(text):  # text是等待被传入的字符窜
     return mark_safe(markdown.markdown(text))
+# 这个方法没有被使用，因为发现效果没有之前的好
+
 

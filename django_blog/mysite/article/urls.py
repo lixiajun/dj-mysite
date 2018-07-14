@@ -1,3 +1,4 @@
+# coding=utf8
 from django.conf.urls import url
 from . import views, list_views
 
@@ -14,4 +15,6 @@ urlpatterns = [
     url(r'^list-artilce-detail/(?P<id>\d+)/(?P<slug>[-\w]+)/$', list_views.article_detail, name="list_article_detail"),
     url(r'^list-article-titles/(?P<username>[-\w]+)/$', list_views.article_titles, name="author_articles"),
     url(r'^like-article/$', list_views.like_article, name="like_article"),
+    url(r'^article-tag/$', views.article_tag, name="article_tag"),  # 文章标签
+    url(r'^del-article-tag/$', views.del_article_tag, name="del_article_tag"),
 ]

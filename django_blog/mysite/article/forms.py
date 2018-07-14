@@ -1,6 +1,6 @@
 # coding=utf-8
 from django import forms
-from .models import ArticleColumn, ArticlePost, Comment
+from .models import ArticleColumn, ArticlePost, Comment, ArticleTag
 
 
 
@@ -20,4 +20,11 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ("body",)
+
+
+class ArticleTagForm(forms.ModelForm):
+    class Meta:
+        model = ArticleTag
+        fields = ('tag', )
+
 

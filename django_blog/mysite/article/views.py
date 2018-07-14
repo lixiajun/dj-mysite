@@ -7,8 +7,8 @@ from django.views.decorators.http import require_POST  # 只接受post的方式�
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from .models import ArticleColumn
-from .forms import ArticleColumnForm, ArticlePostForm, ArticlePost
+from .models import ArticleColumn, ArticleTag
+from .forms import ArticleColumnForm, ArticlePostForm, ArticlePost, ArticleTagForm
 
 
 # Create your views here.
@@ -140,6 +140,43 @@ def redit_article(request, article_id):  # article_id 接收文章的id
             return HttpResponse("1")
         except Exception as e:
             return HttpResponse("2")
+
+
+@login_required(login_url='/account/login')
+@csrf_exempt
+def article_tag(request):
+    if request.method == "GET":
+        article_tags = ArticleTag.objects.filter(author=request.user)
+        article__tag_form = ArticleTagForm()
+        return render(request, "article/tag/tag_list.html", {"article_tags": article_tags,
+                                                             "article_tag_form": article__tag_form})
+    if request.method == "POST":
+        tag_post_form = ArticleTagForm(data=request.POST)
+        if tag_post_form.is_valid():
+            try:
+                new_tag = tag_post_form.save(commit=False)  # 创建一个对象，没有保存
+                new_tag.author = request.user
+                new_tag.save()
+                return HttpResponse("1")
+            except:
+                return HttpResponse("the data cant be saved")
+        else:
+            return HttpResponse("sorry,the form is not valid")
+
+
+@login_required(login_url="/account/login")
+@require_POST
+@csrf_exempt
+def del_article_tag(request):
+    print request.POST.items()
+    tag_id = request.POST['tag_id']
+    try:
+        tag = ArticleTag.objects.get(id=tag_id)
+        tag.delete()
+        return HttpResponse("1")
+    except:
+        return HttpResponse("2")
+
 
 
 
