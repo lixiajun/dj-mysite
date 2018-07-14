@@ -16,3 +16,4 @@ regex==2018.6.9
 six==1.11.0
 typing==3.6.4
 Unidecode==0.4.21
+Markdown-2.6.11
