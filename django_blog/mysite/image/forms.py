@@ -1,7 +1,8 @@
+# coding=utf-8
 from django import forms
 from django.core.files.base import ContentFile
 from slugify import slugify
-from urllib import request
+import requests
 
 from .models import Image
 
@@ -21,12 +22,16 @@ class ImageForm(forms.ModelForm):
 
     def save(self, force_insert=False, force_update=False, commit=True):
         image = super(ImageForm, self).save(commit=False)   # 建立实例，但是还没有保存数据
-        image_url = self.cleaned_data['url']
-        image_name = '{0}.{1}'.format(slugify(image.title), image_url.rsplit('.',1)[1].lower())
+        image_url = self.cleaned_data['url']  # 图片的网上的地址
+        image_name = '{0}.{1}'.format(slugify(image.title), image_url.rsplit('.',1)[1].lower())  # 图片的名字
 
-        response = request.urlopen(image_url)
-        image.image.save(image_name, ContentFile(response.read()), save=False)  # 继承的FileField,有一个save方法，save(name,content,save=True)
-        if commit:
-            image.save()
-
-        return image
+        response = requests.get(image_url)
+        if response.status_code == 200:
+            image.image.save(image_name, ContentFile(response.content), save=False)  # 继承的FileField,有一个save方法，save(name,content,save=True)
+            if commit:
+                image.save()
+            print '成功下载到图片'
+        else:
+            print '图片获取失败'
+            return {'status': 1001, 'error_info': '图片下载失败'}
+        return {'status': 0, 'image_obj': image}

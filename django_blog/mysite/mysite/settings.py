@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'sorl.thumbnail',
     'blog',
     'account',
     'article',
     'image',
+    'course',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blog',  #数据库名
         'USER':'root',           #用户名
-        'PASSWORD':'123456',       #密码
+        'PASSWORD':'1qaz@WSX',       #密码
         'HOST':'127.0.0.1',      #本机地址
         'PORT':'3306',           #端口
     }
@@ -158,3 +160,7 @@ REDIS_HOST = '127.0.0.1'
 REDIS_PORT = 6379
 REDIS_DB = 0
 
+
+# 上传文件的存储目录
+MEDIA_URL = '/media/'  # 用于url映射中的路径，django中默认的上传文件存入的地址
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  # 绝对路径

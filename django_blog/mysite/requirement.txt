@@ -17,4 +17,6 @@ six==1.11.0
 typing==3.6.4
 Unidecode==0.4.21
 Markdown-2.6.11
-Pillow==5.1.0
+Pillow==5.1.0  # 图片处理
+sorl-thumbnail  # 缩略图
+django-braces  # django开发中常用的mix-in类
