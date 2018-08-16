@@ -22,5 +22,6 @@ class OrderField(models.PositiveIntegerField):  # 自定义字段属性，继承
             except ObjectDoesNotExist:
                 value = 0
             setattr(model_instance, self.attname, value)
+            return value  # 模型定义的变量 指向这个返回值
         else:
             return super(OrderField, self).pre_save(model_instance, add)

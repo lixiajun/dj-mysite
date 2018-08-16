@@ -15,6 +15,7 @@ class Course(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     overview = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+    student = models.ManyToManyField(User, related_name="course_joined", blank=True)
 
     class Meta:
         ordering = ('-created',)
@@ -24,7 +25,7 @@ class Course(models.Model):
         super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        return unicode(self.title)
 
 
 def user_directory_path(instance, filename):
@@ -45,7 +46,10 @@ class Lesson(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return '{}.{}'.format(self.order, self.title)
+        return '{}.{}'.format(self.order, unicode(self.title))
+
+
+
 
 
 
